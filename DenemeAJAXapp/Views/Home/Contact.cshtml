@@ -3,15 +3,47 @@
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <address>
+                One Microsoft Way<br />
+                Redmond, WA 98052-6399<br />
+                <abbr title="Phone">P:</abbr>
+                425.555.0100
+            </address>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+            <address>
+                <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
+                <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+            </address>
+        </div>
+        <div class="col-md-4">
+            <div id="kroki"></div>
+        </div>
+        <div class="col-md-4">
+            <img id="image" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-offset-10">
+            <button>Kroki2 yükle</button>
+        </div>
+    </div>
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#kroki").load("/Home/Kroki");
+        });
+        $(document).ready(function () {
+            $("button").click(function () {
+                $.get("/Home/KrokiYolunuGetir", function (data) {
+                    $("#image").attr("src", data);
+                    $("#image").attr("alt", "Kroki2");
+                });
+            });
+        });
+    </script>
+}

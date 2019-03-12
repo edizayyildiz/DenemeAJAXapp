@@ -26,5 +26,15 @@ namespace DenemeAJAXapp.Controllers
 
             return View();
         }
+
+        public ActionResult Kroki()
+        {
+            return PartialView("KrokiPartial");
+        }
+        public ActionResult KrokiYolunuGetir()
+        {
+            var yol = "/Images/kroki.jpg";
+            return Json(yol, JsonRequestBehavior.AllowGet);
+        }
     }
 }
