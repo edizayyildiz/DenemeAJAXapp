@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DenemeAJAXapp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,10 @@ namespace DenemeAJAXapp.Controllers
 {
     public class HomeController : Controller
     {
+        public HomeController()
+        {
+
+        }
         public ActionResult Index()
         {
             return View();
@@ -36,5 +41,37 @@ namespace DenemeAJAXapp.Controllers
             var yol = "/Images/kroki.jpg";
             return Json(yol, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult FeedBackIndex()
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var feedback = db.FeedBacks.ToList();
+                return PartialView(feedback);
+            }
+        }
+
+        public ActionResult FeedBackCreate()
+        {
+            var feedback = new FeedBack();
+            return PartialView(feedback);
+        }
+
+        [HttpPost]
+        public ActionResult FeedBackCreate(FeedBack entity)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var db = new ApplicationDbContext())
+                {
+                    db.FeedBacks.Add(entity);
+                    db.SaveChanges();
+                }
+                return RedirectToAction("FeedBackIndex");
+            }
+            return View();
+            
+        }
+        
     }
 }

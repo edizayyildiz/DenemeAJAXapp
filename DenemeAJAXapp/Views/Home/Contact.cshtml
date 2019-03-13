@@ -5,7 +5,7 @@
 <h3>@ViewBag.Message</h3>
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <address>
                 One Microsoft Way<br />
                 Redmond, WA 98052-6399<br />
@@ -18,19 +18,32 @@
                 <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
             </address>
         </div>
+        <div class="row">
+        </div>
         <div class="col-md-4">
             <div id="kroki"></div>
         </div>
         <div class="col-md-4">
-            <img id="image" />
+            <img id="image1" />
+        </div>
+        <div class="col-md-4">
+            <img id="image2" />
         </div>
     </div>
     <div class="row">
         <div class="col-md-offset-10">
-            <button>Kroki2 yükle</button>
+            <button id="btn1">Kroki2 yükle</button>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-md-offset-10">
+            <button id="btn2">Kroki3 yükle</button>
+        </div>
+    </div>
+    <div class="row">
+        @Html.Action("FeedBackCreate")
+        @Html.Action("FeedBackIndex")
+    </div>
 </div>
 @section scripts{
     <script>
@@ -38,11 +51,35 @@
             $("#kroki").load("/Home/Kroki");
         });
         $(document).ready(function () {
-            $("button").click(function () {
+            $("#btn1").click(function () {
                 $.get("/Home/KrokiYolunuGetir", function (data) {
-                    $("#image").attr("src", data);
-                    $("#image").attr("alt", "Kroki2");
+                    $("#image1").attr("src", data);
+                    $("#image1").attr("alt", "Kroki2");
                 });
+            });
+        });
+        $(document).ready(function () {
+            $("#btn2").click(function () {
+                $.post("/Home/KrokiYolunuGetir",
+                    function (data) {
+                        $("#image2").attr("src", data);
+                        $("#image2").attr("alt", "Kroki3");
+                    });
+            });
+        });
+        $(document).ready(function () {
+            $("#feedbackCreateForm").submit(function () {
+                $.post("/Home/FeedBackCreate",
+                    {
+                        FirstName: $('#FirstName').val(),
+                        LastName: $('#LastName').val(),
+                        Email: $('#Email').val(),
+                        Phone: $('#Phone').val(),
+                        City: $('#City').val(),
+                        Message: $('#Message').val(),
+                    })
+                alert("İşlem tamam");
+                $("#feedbackCreateForm").hide();
             });
         });
     </script>
